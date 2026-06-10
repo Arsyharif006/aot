@@ -25,6 +25,7 @@ const Hero = () => {
 
     video.pause()
     video.currentTime = 0
+    video.playbackRate = 1
 
     const setup = () => {
       const duration = video.duration
@@ -35,23 +36,32 @@ const Hero = () => {
 
       section.style.height = `${scrollLen + window.innerHeight}px`
 
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: `+=${scrollLen}`,
-        scrub: true,
-        onUpdate: (self) => {
-          const t = Math.min(self.progress * duration, duration - 0.01)
-          if (isFinite(t)) video.currentTime = t
-        },
-      })
+     const proxy = { time: 0 }
+     let lastTime = 0
+
+gsap.to(proxy, {
+  time: duration,
+  ease: "none",
+  scrollTrigger: {
+    trigger: section,
+    start: "top top",
+    end: `+=${scrollLen}`,
+    scrub: 0.5,
+  },
+  onUpdate: () => {
+    if (Math.abs(proxy.time - lastTime) > 0.016) {
+      video.currentTime = proxy.time
+      lastTime = proxy.time
+    }
+  }
+})
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: 'top top',
           end: `+=${scrollLen}`,
-          scrub: true,
+          scrub: 0.1,
         },
         defaults: { ease: 'power3.out' },
       })
@@ -116,6 +126,7 @@ const Hero = () => {
           muted
           playsInline
           preload="auto"
+          decoding="async"
         />
         <div className="hero__overlay" ref={overlayRef} />
 
