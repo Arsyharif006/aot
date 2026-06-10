@@ -6,20 +6,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const Hero = () => {
-  const sectionRef = useRef(null)   
-  const stickyRef  = useRef(null)   
-  const videoRef   = useRef(null)
+  const sectionRef = useRef(null)
+  const stickyRef = useRef(null)
+  const videoRef = useRef(null)
 
   const ch1TitleRef = useRef(null)
-  const ch1SubRef   = useRef(null)
+  const ch1SubRef = useRef(null)
   const ch2TitleRef = useRef(null)
-  const ch2SubRef   = useRef(null)
+  const ch2SubRef = useRef(null)
   const ch3TitleRef = useRef(null)
-  const ch3SubRef   = useRef(null)
-  const overlayRef  = useRef(null)
+  const ch3SubRef = useRef(null)
+  const overlayRef = useRef(null)
 
   useEffect(() => {
-    const video   = videoRef.current
+    const video = videoRef.current
     const section = sectionRef.current
     if (!video || !section) return
 
@@ -36,10 +36,10 @@ const Hero = () => {
       section.style.height = `${scrollLen + window.innerHeight}px`
 
       ScrollTrigger.create({
-        trigger : section,
-        start   : 'top top',
-        end     : `+=${scrollLen}`,
-        scrub   : true,
+        trigger: section,
+        start: 'top top',
+        end: `+=${scrollLen}`,
+        scrub: true,
         onUpdate: (self) => {
           const t = Math.min(self.progress * duration, duration - 0.01)
           if (isFinite(t)) video.currentTime = t
@@ -48,21 +48,21 @@ const Hero = () => {
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger : section,
-          start   : 'top top',
-          end     : `+=${scrollLen}`,
-          scrub   : true,
+          trigger: section,
+          start: 'top top',
+          end: `+=${scrollLen}`,
+          scrub: true,
         },
         defaults: { ease: 'power3.out' },
       })
 
       tl.fromTo(ch1TitleRef.current,
         { opacity: 0, y: 60, filter: 'blur(12px)' },
-        { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 0.12 },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.12 },
         0.03)
       tl.fromTo(ch1SubRef.current,
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0,  duration: 0.1 },
+        { opacity: 1, y: 0, duration: 0.1 },
         0.1)
       tl.to([ch1TitleRef.current, ch1SubRef.current],
         { opacity: 0, y: -40, filter: 'blur(8px)', duration: 0.08 },
@@ -87,7 +87,7 @@ const Hero = () => {
 
       tl.fromTo(ch3TitleRef.current,
         { opacity: 0, scale: 1.15, filter: 'blur(14px)' },
-        { opacity: 1, scale: 1,    filter: 'blur(0px)', duration: 0.16 },
+        { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.16 },
         0.68)
       tl.fromTo(ch3SubRef.current,
         { opacity: 0, y: 24 },
@@ -112,12 +112,11 @@ const Hero = () => {
         <video
           ref={videoRef}
           className="hero__video"
-          src="/video/one.mp4"
+          src={`${import.meta.env.BASE_URL}video/one.mp4`}
           muted
           playsInline
           preload="auto"
         />
-
         <div className="hero__overlay" ref={overlayRef} />
 
         <div className="hero__grain" />
@@ -139,7 +138,7 @@ const Hero = () => {
 
         <div className="hero__chapter hero__ch2">
           <p className="hero__ch2-title" ref={ch2TitleRef}>SHINGEKI NO KYOJIN</p>
-          <p className="hero__ch2-sub"   ref={ch2SubRef}>— The day the wall was breached —</p>
+          <p className="hero__ch2-sub" ref={ch2SubRef}>— The day the wall was breached —</p>
         </div>
 
         <div className="hero__chapter hero__ch3">
